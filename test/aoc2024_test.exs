@@ -27,7 +27,7 @@ defmodule Aoc2024Test do
   test "day03" do
     input = load_input("day03.txt")
 
-    # assert Aoc2024.Day03.part_one(input) == 188116424
-    IO.inspect Aoc2024.Day03.part_two(input)
+    assert Aoc2024.Day03.part_one(input) == 188116424
+    assert Aoc2024.Day03.part_two(input) == 104245808
   end
 end

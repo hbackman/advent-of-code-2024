@@ -25,6 +25,7 @@ defmodule Aoc2024.Day03 do
         ["don't"], {_, s} ->
           {:n, s}
       end)
+      |> elem(1)
   end
 
 end
