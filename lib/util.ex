@@ -32,4 +32,17 @@ defmodule Util do
   def string_split_lines(string) do
     String.split(string, ~r/\R/, trim: true)
   end
+
+  @doc """
+  Formats a list of string integers into a list of integers.
+
+  ## Examples
+
+    iex> Util.list_int_parse(["1", "2", "3"])
+    [1, 2, 3]
+
+  """
+  def list_int_parse(list) do
+    Enum.map(list, &String.to_integer/1)
+  end
 end
