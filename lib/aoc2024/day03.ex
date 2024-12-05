@@ -1,7 +1,5 @@
 defmodule Aoc2024.Day03 do
 
-  alias Util
-
   def part_one(input) do
     ~r/mul\((-?\d+),(-?\d+)\)/
       |> Regex.scan(input, capture: :all_but_first)
