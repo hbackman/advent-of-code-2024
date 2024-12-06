@@ -29,8 +29,12 @@ defmodule Util do
     ["hello", "world"]
 
   """
-  def string_split_lines(string) do
-    String.split(string, ~r/\R/, trim: true)
+  def string_split_lines(string, n \\ 1) when is_bitstring(string) do
+    String.split(string, ~r/\R{#{n}}/, trim: true)
+  end
+
+  def array_split_lines(array, n \\ 1) when is_list(array) do
+    Enum.map(array, &string_split_lines(&1, n))
   end
 
   @doc """
