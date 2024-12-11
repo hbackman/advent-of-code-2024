@@ -102,4 +102,29 @@ defmodule Matrix do
   """
   def y_range(matrix = %Matrix{}), do: 0..(matrix.h-1)
 
+  def inside?(matrix = %Matrix{}, {x, y}),
+    do: inside?(matrix, x, y)
+
+  def inside?(matrix = %Matrix{}, x, y) do
+    cond do
+      x < 0 -> false
+      y < 0 -> false
+      x >= matrix.w -> false
+      y >= matrix.h -> false
+      true -> true
+    end
+  end
+
+  @doc """
+  Inspect the matrix.
+  """
+  def inspect(matrix = %Matrix{}) do
+    for y <- Matrix.y_range(matrix) do
+      for x <- Matrix.x_range(matrix) do
+        IO.write Matrix.get(matrix, {x, y})
+      end
+      IO.write "\n"
+    end
+    matrix
+  end
 end
