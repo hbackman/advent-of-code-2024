@@ -127,4 +127,5 @@ defmodule Matrix do
     end
     matrix
   end
+
 end

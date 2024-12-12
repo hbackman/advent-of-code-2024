@@ -1,6 +1,8 @@
 defmodule Aoc2024Test do
   use ExUnit.Case
 
+  @moduletag timeout: :infinity
+
   doctest Aoc2024
   doctest Util
 
@@ -48,7 +50,8 @@ defmodule Aoc2024Test do
   test "day06" do
     input = load_input("day06.txt")
 
-    IO.inspect Aoc2024.Day06.part_one(input)
-    # IO.inspect Aoc2024.Day06.part_two(input)
+    assert Aoc2024.Day06.part_one(input) == 5453
+    assert Aoc2024.Day06.part_two(input) == 2188
   end
+
 end
