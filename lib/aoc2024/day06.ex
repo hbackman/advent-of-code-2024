@@ -28,12 +28,12 @@ defmodule Aoc2024.Day06 do
     if Matrix.inside?(room, nx, ny) do
       pos = case Matrix.get(room, nx, ny) do
         "." -> {nx, ny, dir}
-        "#" -> case dir do
-          "^" -> {x, y, ">"}
-          "v" -> {x, y, "<"}
-          "<" -> {x, y, "^"}
-          ">" -> {x, y, "v"}
-        end
+        "#" -> {x, y, case dir do
+          "^" -> ">"
+          "v" -> "<"
+          "<" -> "^"
+          ">" -> "v"
+        end}
       end
       {:cont, pos}
     else
