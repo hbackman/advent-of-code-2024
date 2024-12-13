@@ -102,6 +102,9 @@ defmodule Matrix do
   """
   def y_range(matrix = %Matrix{}), do: 0..(matrix.h-1)
 
+  @doc """
+  Check if the given position is inside of the matrix.
+  """
   def inside?(matrix = %Matrix{}, {x, y}),
     do: inside?(matrix, x, y)
 
@@ -113,6 +116,15 @@ defmodule Matrix do
       y >= matrix.h -> false
       true -> true
     end
+  end
+
+  @doc """
+  Retrieve the positions in the matrix.
+  """
+  def positions(matrix = %Matrix{}) do
+    for y <- Matrix.y_range(matrix),
+        x <- Matrix.x_range(matrix),
+        do: {x, y}
   end
 
   @doc """
