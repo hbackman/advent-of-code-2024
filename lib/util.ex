@@ -37,6 +37,10 @@ defmodule Util do
     Enum.map(array, &string_split_lines(&1, n))
   end
 
+  def array_split_strings(array) when is_list(array) do
+    Enum.map(array, &String.split(&1, "", trim: true))
+  end
+
   @doc """
   Formats a list of string integers into a list of integers.
 

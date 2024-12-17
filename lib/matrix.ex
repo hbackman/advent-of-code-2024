@@ -128,6 +128,57 @@ defmodule Matrix do
   end
 
   @doc """
+  Map each value in the matrix.
+  """
+  def map(matrix = %Matrix{}, fun) when is_function(fun) do
+    positions = Matrix.positions(matrix)
+
+    Enum.reduce(positions, matrix, fn {x, y}, mat ->
+      value = Matrix.get(matrix, {x, y})
+
+      case :erlang.fun_info(fun, :arity) do
+        {:arity, 1} -> Matrix.put(mat, {x, y}, fun.(value))
+        {:arity, 2} -> Matrix.put(mat, {x, y}, fun.(value, {x, y}))
+        _ -> raise ArgumentError, "Callback must have arity of 1 or 2."
+      end
+    end)
+  end
+
+  @doc """
+  Find a value in the matrix.
+  """
+  def find(matrix = %Matrix{}, fun) when is_function(fun) do
+    positions = Matrix.positions(matrix)
+
+    Enum.find(positions, fn {x, y} ->
+      value = Matrix.get(matrix, {x, y})
+
+      case :erlang.fun_info(fun, :arity) do
+        {:arity, 1} -> fun.(value)
+        {:arity, 2} -> fun.(value, {x, y})
+        _ -> raise ArgumentError, "Callback must have arity of 1 or 2."
+      end
+    end)
+  end
+
+  @doc """
+  Filter values in the matrix.
+  """
+  def filter(matrix = %Matrix{}, fun) when is_function(fun) do
+    positions = Matrix.positions(matrix)
+
+    Enum.filter(positions, fn {x, y} ->
+      value = Matrix.get(matrix, {x, y})
+
+      case :erlang.fun_info(fun, :arity) do
+        {:arity, 1} -> fun.(value)
+        {:arity, 2} -> fun.(value, {x, y})
+        _ -> raise ArgumentError, "Callback must have arity of 1 or 2."
+      end
+    end)
+  end
+
+  @doc """
   Inspect the matrix.
   """
   def inspect(matrix = %Matrix{}) do
