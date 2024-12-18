@@ -13,6 +13,7 @@ defmodule Util do
   """
   def string_to_int_list(string, separator \\ " ") do
     string
+      |> String.replace("\n", "")
       |> String.split(separator, trim: true)
       |> Enum.map(&String.to_integer/1)
   end
