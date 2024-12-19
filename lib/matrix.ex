@@ -128,6 +128,17 @@ defmodule Matrix do
   end
 
   @doc """
+  Retrieve a map of %{ {x, y} => value }
+  """
+  def to_map(matrix = %Matrix{}) do
+    matrix
+      |> Matrix.positions()
+      |> Enum.reduce(%{}, fn pos, map ->
+          Map.put(map, pos, Matrix.get(matrix, pos))
+        end)
+  end
+
+  @doc """
   Map each value in the matrix.
   """
   def map(matrix = %Matrix{}, fun) when is_function(fun) do
