@@ -34,23 +34,15 @@ defmodule Aoc2024.Day12 do
   end
 
   defp edges({x, y}, node_set) do
-    [
-      {x, y-1}, # north
-      {x, y+1}, # south
-      {x-1, y}, # west
-      {x+1, y}, # east
-    ] |> Enum.count(fn n ->
-        not MapSet.member?(node_set, n)
-      end)
+    [{x, y-1}, {x, y+1}, {x-1, y}, {x+1, y}]
+      |> Enum.filter(& not MapSet.member?(node_set, &1))
   end
 
   defp area(nodes) do
     Enum.count(nodes)
   end
 
-  def part_one(input) do
-    map = Matrix.from(input)
-
+  defp solve(map = %Matrix{}) do
     map
       |> Matrix.to_map()
       |> Map.to_list()
@@ -65,9 +57,63 @@ defmodule Aoc2024.Day12 do
             do: [{seed, scan(map, pos, seed)} | areas],
             else: areas
         end)
+  end
+
+  def part_one(input) do
+    input
+      |> Matrix.from()
+      |> solve()
       |> Enum.map(fn {seed, nodes} -> {seed, area(nodes), perimeter(nodes)} end)
       |> Enum.map(fn {_, a, p} -> a * p end)
       |> Enum.sum()
+  end
+
+  defp sides(map, nodes, chr) do
+    set = MapSet.new(nodes)
+
+    IO.puts "------------------ #{chr} ------------------"
+    Matrix.map(map, fn ch, {x, y} ->
+      if Enum.member?(nodes, {x, y}) do
+        ch
+      else
+        "."
+      end
+    end) |> Matrix.inspect()
+
+    IO.puts ""
+
+    Enum.reduce(nodes, 0, fn {x, y}, s ->
+      s + case edges({x, y}, set) do
+        v -> 0
+      end
+    end)
+  end
+
+  # M:  5 *  6 = 30
+  # C:  1 *  4 = 4
+  # S:  3 *  6 = 18
+  # F: 10 * 12 = 120
+  # C: 14 * 22 = 308
+  # J: 11 * 12 = 132
+  # I:  4 *  4 = 16
+  # I: 14 * 16 = 224
+  # R: 12 * 10 = 120
+  # E: 13 *  8 = 104
+  # V: 13 * 10 = 130
+
+  def part_two(input) do
+    map = Matrix.from(input)
+    input
+      |> Matrix.from()
+      |> solve()
+      |> Enum.map(fn {seed, nodes} -> {seed, area(nodes), sides(map, nodes, seed)} end)
+      |> Enum.map(fn {seed, a, b} -> {seed, a, b} end)
+      |> Enum.each(fn {seed, a, b} ->
+          aa = String.pad_leading("#{a}", 2, " ")
+          bb = String.pad_leading("#{b}", 2, " ")
+
+          IO.puts "#{seed}:   #{aa} * #{bb} = #{a*b}"
+        end)
   end
 
 end

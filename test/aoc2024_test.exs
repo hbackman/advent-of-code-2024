@@ -80,8 +80,8 @@ defmodule Aoc2024Test do
 
   test "day12" do
     input = load_input("day12.txt")
-    IO.inspect Aoc2024.Day12.part_one(input)
-    # IO.inspect Aoc2024.Day12.part_two(input)
+    # IO.inspect Aoc2024.Day12.part_one(input)
+    IO.inspect Aoc2024.Day12.part_two(input)
   end
 
 end
