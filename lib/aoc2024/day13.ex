@@ -15,19 +15,45 @@ defmodule Aoc2024.Day13 do
   end
 
   defp solve([{ax, ay}, {bx, by}, {px, py}]) do
-    a_cost = 3
-    b_cost = 1
+    # We have the linear system:
+    # `94a + 22b = 8400` = `ax*a + bx*b = px`
+    # `34a + 67b = 5400` = `ay*a + by*b = py`
+    #
+    # where `a` and `b` are the number of button presses
 
-    # linear regression?
+    # We solve for one variable by expressing `a` in terms of `b`.
+    #
+    # `(34 * 94)a + (34 * 22)b = 34 * 8400` => `(ay*ax)*a + (ay*bx)*b = ay * px`
+    # `(94 * 34)a + (94 * 67)b = 94 * 5400` => `(ax*ay)*a + (ax*by)*b = ax * py`
 
-    IO.inspect {{ax, ay}, {bx, by}, {px, py}}
+    # Now subtract the equations.
+    #
+    #    `(34 * 22 - 94 * 67)b = 34 * 8400 - 94 * 5400`
+    # => `(ay*bx - ax*by)b = ay*px - ax*py`
+
+    # Solve for `b`
+    b = (ay*px - ax*py) / (ay*bx - ax*by)
+
+    # Solve for `a`
+    #
+    #    `ax*a + bx*b = px`
+    # => `ax*a + bx*40 = px`
+    # => `a = (px-bx*40)/ax`
+    a = (px - bx * b) / ax
+
+    # Calculate cost
+    c = (a * 3) + (b * 1)
+
+    # The cost will be an integer if there is a solvable solution. If it is
+    # not an integer, return zero instead.
+    if c == trunc(c), do: trunc(c), else: 0
   end
 
-  def part_one(input) do
+def part_one(input) do
     input
       |> parse()
-      |> List.first()
-      |> solve()
+      |> Enum.map(&solve/1)
+      |> Enum.sum()
   end
 
 end
