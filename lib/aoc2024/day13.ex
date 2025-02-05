@@ -49,9 +49,19 @@ defmodule Aoc2024.Day13 do
     if c == trunc(c), do: trunc(c), else: 0
   end
 
-def part_one(input) do
+  def part_one(input) do
     input
       |> parse()
+      |> Enum.map(&solve/1)
+      |> Enum.sum()
+  end
+
+  def part_two(input) do
+    input
+      |> parse()
+      |> Enum.map(fn [a, b, {px, py}] ->
+          [a, b, {px + 10000000000000, py + 10000000000000}]
+        end)
       |> Enum.map(&solve/1)
       |> Enum.sum()
   end
