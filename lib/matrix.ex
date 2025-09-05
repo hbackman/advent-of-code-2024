@@ -87,7 +87,7 @@ defmodule Matrix do
   def transpose(matrix = %Matrix{}) do
     matrix
       |> Matrix.to_list()
-      |> List.zip()
+      |> Enum.zip()
       |> Enum.map(&Tuple.to_list/1)
       |> Matrix.from()
   end
