@@ -96,4 +96,11 @@ defmodule Aoc2024Test do
     assert Aoc2024.Day14.part_two(input) == 7132
   end
 
+  test "day15" do
+    input = load_input("day15.txt")
+
+    assert Aoc2024.Day15.part_one(input) == 1490942
+    #assert Aoc2024.Day15.part_two(input) == 1
+  end
+
 end
